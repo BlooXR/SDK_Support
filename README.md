@@ -1,8 +1,9 @@
 # BlooXR SDK Official Support Repository
 -----------------------------------------------------------
 欢迎使用BlooXR 官方技术支持GitHub仓库。
-BlooXR SDK基于OpenXR backend，当前为Pre-release Alpha版本，版本号V0.0.1。
+BlooXR SDK基于OpenXR backend，当前为Pre-release Alpha版本，版本号V0.0.1，支持Unity，Unreal以及Native开发SDK。
 
+-----------------------------------------------------------
 ##### Unity
 Unity: Unity OpenXR app needs include the OpenXR Loader with Unity OpenXR plugin, refer: https://docs.unity3d.com/Packages/com.unity.xr.openxr@1.3/manual/features.html  (Custom Loader library) 
 
@@ -17,6 +18,7 @@ Unreal: Unreal OpenXR app needs include the OpenXRLoader with Unreal OpenXR plug
 建议开发环境
 Unreal引擎版本：427
 
+-----------------------------------------------------------
 ### Supported Features
 -----------------------------------------------------------
 当前已支持feature
@@ -24,6 +26,7 @@ Unreal引擎版本：427
 - 多视图渲染：支持Multi-view single pass/Multi-pass渲染模式
 - input system：Oculus touch controller profile
 
+-----------------------------------------------------------
 ### Underplan
 -----------------------------------------------------------
 - Controller 手柄调试环境支持
