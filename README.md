@@ -1,7 +1,7 @@
 # BlooXR SDK Official Support Repository
 -----------------------------------------------------------
 欢迎使用BlooXR 官方技术支持GitHub仓库。
-BlooXR SDK基于OpenXR backend，当前为Pre-release Alpha版本，版本号V0.0.1，支持Unity，Unreal以及Native开发SDK。
+BlooXR SDK基于OpenXR backend，当前为Pre-release Alpha版本，版本号V0.0.1，支持Unity，Unreal以及Native开发。
 
 -----------------------------------------------------------
 ##### Unity
