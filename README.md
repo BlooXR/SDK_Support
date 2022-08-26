@@ -3,22 +3,22 @@
 欢迎使用BlooXR 官方技术支持GitHub仓库。
 BlooXR SDK基于OpenXR backend，当前为Pre-release Alpha版本，版本号V0.0.1，支持Unity，Unreal以及Native开发。
 
+###开发环境
 -----------------------------------------------------------
 #### Unity
-Unity: Unity OpenXR app needs include the OpenXR Loader with Unity OpenXR plugin, refer: https://docs.unity3d.com/Packages/com.unity.xr.openxr@1.3/manual/features.html  (Custom Loader library) 
-建议开发环境:
-Unity Editor：2020.3.16f1c1及以上
-OpenXR Plugin: 1.3及以上，建议最新版本
-XR Interaction Toolkit 推荐使用最新版本2.1.1
-
+- Unity: Unity OpenXR app needs include the OpenXR Loader with Unity OpenXR plugin, refer: https://docs.unity3d.com/Packages/com.unity.xr.openxr@1.3/manual/features.html  (Custom Loader library) 
+- Unity Editor：2020.3.16f1c1及以上
+- OpenXR Plugin: 1.3及以上，建议最新版本
+- XR Interaction Toolkit 推荐使用最新版本2.1.1
 
 #### Unreal 4
-Unreal: Unreal OpenXR app needs include the OpenXRLoader with Unreal OpenXR plugin, refer: https://docs.unrealengine.com/4.26/en-US/SharingAndReleasing/XRDevelopment/OpenXR/
-建议开发环境
-Unreal引擎版本：427
+- Unreal: Unreal OpenXR app needs include the OpenXRLoader with Unreal OpenXR plugin, refer: https://docs.unrealengine.com/4.26/en-US/SharingAndReleasing/XRDevelopment/OpenXR/
+- Unreal引擎版本：427
+
+#### Android
+- 版本：Android12
 
 
------------------------------------------------------------
 ### Supported Features
 -----------------------------------------------------------
 当前已支持feature
