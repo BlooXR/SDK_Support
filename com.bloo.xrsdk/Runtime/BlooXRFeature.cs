@@ -29,7 +29,7 @@ namespace UnityEngine.XR.OpenXR.Features.BlooXRSupport
         /// The feature id string. This is used to give the feature a well known id for reference.
         /// </summary>
         public const string featureId = "com.unity.openxr.feature.blooxr";
-
+/*
 #if UNITY_EDITOR
         protected override void GetValidationChecks(List<ValidationRule> rules, BuildTargetGroup targetGroup)
         {
@@ -70,6 +70,6 @@ namespace UnityEngine.XR.OpenXR.Features.BlooXRSupport
                 error = true,
             });
         }
-#endif
+#endif */
     }
 }
