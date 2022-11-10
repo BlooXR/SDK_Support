@@ -1,0 +1,36 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0.0",
+	"FriendlyName": "Bloo OpenXR",
+	"Description": "OpenXR extension to support Bloo headsets and features. Disable the other VR plugin when enabling this plugin.",
+	"Category": "Virtual Reality",
+	"CreatedBy": "Bloo",
+	"CreatedByURL": "https://www.bloo.com/",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"EnabledByDefault": false,
+	"CanContainContent": true,
+	"IsBetaVersion": true,
+	"Installed": false,
+	"SupportedTargetPlatforms": [
+		"Android"
+	],
+	"Modules": [
+		{
+			"Name": "BlooOpenXRHMD",
+			"Type": "Runtime",
+			"LoadingPhase": "PostConfigInit",
+			"WhitelistPlatforms": [
+				"Android"
+			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "OpenXR",
+			"Enabled": true
+		}
+	]
+}
