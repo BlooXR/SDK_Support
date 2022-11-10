@@ -1,8 +1,7 @@
 # BlooXR SDK Official Support Repository
 -----------------------------------------------------------
 欢迎使用BlooXR 官方技术支持GitHub仓库。
-BlooXR SDK基于OpenXR backend，当前为Beta版本，支持Unity项目开发。UE4 plugin即将发布。
-
+BlooXR SDK基于OpenXR backend，当前为Beta版本，支持Unity项目开发，支持UE4 项目开发
 ### 开发环境
 -----------------------------------------------------------
 #### Unity
@@ -21,12 +20,19 @@ BlooXR SDK基于OpenXR backend，当前为Beta版本，支持Unity项目开发�
 
 ### Supported Features
 -----------------------------------------------------------
-当前已支持feature
+Unity已支持features
 - 图形库支持：OpenGL ES，Vulkan
 - 多视图渲染：支持Multi-view single pass/Multi-pass渲染模式
-- input system：Oculus touch controller profile
+- input system：Oculus touch controller profile, BlooXR touch controller profile
 - Controller 手柄调试环境支持
 - Bloo Haptic 蓝鲸手柄特性：AAC瑞声振动马达支持
+
+Unreal已支持features
+- 6Dof tracking
+- 图形库支持：
+- 多视图渲染
+- OpenXR input system
+- Bloo controller haptic 蓝鲸手柄震动定义工具
 
 ### Underplan
 -----------------------------------------------------------
