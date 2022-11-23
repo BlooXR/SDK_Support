@@ -1,0 +1,721 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Bloo OpenXR plugin additions-->
+<root xmlns:android="http://schemas.android.com/apk/res/android">
+	<!-- init section is always evaluated once per architecture -->
+	<init>
+		<log text="Bloo OpenXR init"/>
+	</init>
+
+	<!-- optional updates applied to AndroidManifest.xml
+	<androidManifestUpdates>
+		
+	</androidManifestUpdates>
+	-->
+
+	<!-- optional files or directories to copy to Intermediate/Android/APK -->
+	<resourceCopies>
+		
+		<isArch arch="armeabi-v7a">
+			<log text="Copying BlooOpenXRLoader"/>
+			<copyFile src="$S(PluginDir)/ThirdParty/BlooOpenXRLoader/Lib/armeabi-v7a/libopenxr_loader.so"
+            			dst="$S(BuildDir)/libs/armeabi-v7a/libopenxr_loader.so" />
+		</isArch>
+
+		<isArch arch="arm64-v8a">
+			<log text="Copying BlooOpenXRLoader"/>
+			<copyFile src="$S(PluginDir)/ThirdParty/BlooOpenXRLoader/Lib/arm64-v8a/libopenxr_loader.so"
+            			dst="$S(BuildDir)/libs/arm64-v8a/libopenxr_loader.so" />
+		</isArch>
+    
+    <copyFile src="$S(PluginDir)/ThirdParty/Lib/api-1.0.66.aar"
+					dst="$S(BuildDir)/libs/api-1.0.66.aar" /> 
+
+		<!-- 
+		<isArch arch="armeabi-v7a">
+			<log text="Copying libopenxr_loader.so"/>
+			<copyFile src="$S(EnginePluginDir)/Runtime/BlooOpenXR/Source/BlooOpenXRHMD/ThirdParty/BlooOpenXRLoader/Lib/armeabi-v7a/libopenxr_loader.so"
+            			dst="$S(BuildDir)/libs/armeabi-v7a/libopenxr_loader.so" />
+		</isArch>
+
+		<isArch arch="arm64-v8a">
+			<log text="Copying libopenxr_loader.so"/>
+			<copyFile src="$S(EnginePluginDir)/Runtime/BlooOpenXR/Source/BlooOpenXRHMD/ThirdParty/BlooOpenXRLoader/Lib/arm64-v8a/libopenxr_loader.so"
+            			dst="$S(BuildDir)/libs/arm64-v8a/libopenxr_loader.so" />
+		</isArch>
+    -->
+
+	</resourceCopies>
+
+  <!--  baseBuildAdditions.gradle -->
+  <baseBuildGradleAdditions>
+    <insert>
+      buildscript {
+      repositories {
+      maven { url "https://nexus.blooxr.tech/nexus/content/repositories/releases/" }
+      }
+      }
+    </insert>
+    <insert>
+      allprojects {
+      repositories {
+      maven { url "https://nexus.blooxr.tech/nexus/content/repositories/releases/" }
+      }
+      }
+    </insert>
+  </baseBuildGradleAdditions>
+
+  
+  <!--  optional app build.gradle(\app\build.gradle) additions(\app\buildAdditions.gradle) -->
+  <buildGradleAdditions>
+    <insert>
+      dependencies {
+      implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.10'
+      
+      //implementation 'com.blooxr.device:api:1.0.66'
+      //implementation 'com.blooxr.wifi:api:1.1.9'  // 1.1.23
+      //implementation 'com.blooxr.aar:bluetooth:1.0.51'
+
+      //compile 'com.android.support:appcompat-v7:25.3.1'
+      //compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+      //compile 'com.google.android.support:wearable:2.0.2'
+      //compileOnly files('/src/main/libs/framework.jar')
+      }
+    </insert>
+    
+    <insert>
+      android {
+        repositories{
+          flatDir{
+            dirs'src/main/libs'
+          }
+        }
+      }
+      dependencies {
+        implementation name:'api-1.0.66',ext:'aar'
+      }
+    </insert>
+
+    <insert>
+      android {
+        compileOptions {
+          sourceCompatibility JavaVersion.VERSION_1_8
+          targetCompatibility JavaVersion.VERSION_1_8
+        }
+      }
+    </insert>
+  </buildGradleAdditions>
+
+  <gameActivityImportAdditions>
+    <insert>
+      import android.app.OnBxrPlayerEventListener;
+
+      import com.blooxr.deviceinfo.DeviceInfoManager;
+      import com.blooxr.deviceinfo.callback.DeviceInfoCallback;
+
+      //import com.bloo.info.wifi.DeviceWifiManager;
+      //import com.bloo.info.wifi.callback.WifiStatusCallBack;
+
+      //import com.bloo.aar.bluetooth.DeviceBluetoothManager;
+      //import com.bloo.aar.bluetooth.UnityListener;
+    </insert>
+  </gameActivityImportAdditions>
+
+  <gameActivityClassAdditions>
+    <insert>
+      // BlooXRDeviceInfoCallback
+      class BlooXRDeviceInfoCallback implements DeviceInfoCallback
+      {
+      @Override
+      public void onVolumeChange(int volume)
+      {
+      nativeOnVolumeChange(volume);
+      }
+
+      @Override
+      public void onPowerFullChange(int level, boolean isCharging)
+      {
+      nativeOnPowerFullChange(level, isCharging);
+      }
+
+      @Override
+      public void onUsbConnectChange(boolean connect)
+      {
+      nativeOnUsbConnectChange(connect);
+      }
+
+      @Override
+      public void onScreenLock(boolean isLock)
+      {
+      nativeOnScreenLock(isLock);
+      }
+
+      @Override
+      public void onVolumeKeyDown(int status)
+      {
+      nativeOnVolumeKeyDown(status);
+      }
+
+      @Override
+      public void onVolumeKeyUp(int status)
+      {
+      nativeOnVolumeKeyUp(status);
+      }
+
+      @Override
+      public void onPowerKeyPressOneSecond()
+      {
+      nativeOnPowerKeyPressOneSecond();
+      }
+
+      @Override
+      public void onFileInfoAvailable(String memoryInfo)
+      {
+      nativeOnFileInfoAvailable(memoryInfo);
+      }
+      }
+      
+      /*
+
+      public native void nativeOnWifiConnectStatus(boolean isConnected);
+      public native void nativeOnWifiListChange(String wifiList);
+      public native void nativeOnWifiConnectSuccess(String ssid);
+      public native void nativeOnWifiConnectFailure(String ssid, int code);
+      public native void nativeOnNetworkAvailable(boolean isAvailable);
+
+      // BlooXRWifiStatusCallBack
+      class BlooXRWifiStatusCallBack implements WifiStatusCallBack
+      {
+      @Override
+      public void onWifiConnectStatus(boolean isConnected)
+      {
+      nativeOnWifiConnectStatus(isConnected);
+      }
+
+      @Override
+      public void onWifiListChange(String wifiList)
+      {
+      nativeOnWifiListChange(wifiList);
+      }
+
+      @Override
+      public void onWifiConnectSuccess(String ssid)
+      {
+      nativeOnWifiConnectSuccess(ssid);
+      }
+
+      @Override
+      public void onWifiConnectFailure(String ssid, int code)
+      {
+      nativeOnWifiConnectFailure(ssid, code);
+      }
+
+      @Override
+      public void onNetworkAvailable(boolean isAvailable)
+      {
+      nativeOnNetworkAvailable(isAvailable);
+      }
+      }
+
+      public native void nativeOnBlueToothStateChangeOn();
+      public native void nativeOnBlueToothStateChangeOff();
+      public native void nativeOnBlueToothScanStarted();
+      public native void nativeOnBlueToothScanStop();
+      public native void nativeOnBlueToothDeviceFound(String data);
+      public native void nativeOnBlueToothConnectionChanged(String data);
+
+      // BlooXRBTListener
+      class BlooXRBTListener implements UnityListener
+      {
+      @Override
+      public void onStateChangeOn()
+      {
+      nativeOnBlueToothStateChangeOn();
+      }
+
+      @Override
+      public void onStateChangeOff()
+      {
+      nativeOnBlueToothStateChangeOff();
+      }
+
+      @Override
+      public void onScanStarted()
+      {
+      nativeOnBlueToothScanStarted();
+      }
+
+      @Override
+      public void onScanStop()
+      {
+      nativeOnBlueToothScanStop();
+      }
+
+      @Override
+      public void onBluetoothDeviceFound(String data)
+      {
+      nativeOnBlueToothDeviceFound(data);
+      }
+
+      @Override
+      public void onConnectionChanged(String data)
+      {
+      nativeOnBlueToothConnectionChanged(data);
+      }
+      }
+      */
+
+      OnBxrPlayerEventListener playerEventListenerLeft = null;
+      OnBxrPlayerEventListener playerEventListenerRight = null;
+      OnBxrPlayerEventListener playerEventListenerBoth = null;
+
+      // ----- datas -----
+      private BlooXRDeviceInfoCallback blooXRDeviceInfoCallback = null;
+      private DeviceInfoManager deviceInfoManager = null;
+
+      //private BlooXRWifiStatusCallBack blooXRWifiStatusCallBack = null;
+      //private DeviceWifiManager deviceWifiManager = null;
+
+      //private BlooXRBTListener blooXRBTListener = null;
+      //private DeviceBluetoothManager deviceBluetoothManager = null;
+
+      // ----- functions -----
+
+      private void BlooXRPluginLogDebug(String message)
+      {
+      Log.debug("[BlooXRPluginDebug] " + message);
+      }
+
+      private void BlooXRPluginLogWarn(String message)
+      {
+      Log.warn("[BlooXRPluginWarn] " + message);
+      }
+
+      private void BlooXRPluginLogError(String message)
+      {
+      Log.error("[BlooXRPluginError] " + message);
+      }
+
+      // init device info
+      public void InitBlooXRPlugin()
+      {
+      BlooXRPluginLogDebug("InitBlooXRPlugin stared.");
+
+      playerEventListenerLeft = new OnBxrPlayerEventListener() {
+
+      @Override
+      public void onSeekCompletedCallBack(int i) {
+      nativePlayerEventListener(1, 1, i);
+      }
+
+      @Override
+      public void onPlayerStateChangedCallBack(int i) {
+      nativePlayerEventListener(1, 2, i);
+      }
+      };
+
+      playerEventListenerRight = new OnBxrPlayerEventListener() {
+
+      @Override
+      public void onSeekCompletedCallBack(int i) {
+      nativePlayerEventListener(2, 1, i);
+      }
+
+      @Override
+      public void onPlayerStateChangedCallBack(int i) {
+      nativePlayerEventListener(2, 2, i);
+      }
+      };
+
+      playerEventListenerBoth = new OnBxrPlayerEventListener() {
+
+      @Override
+      public void onSeekCompletedCallBack(int i) {
+      nativePlayerEventListener(3, 1, i);
+      }
+
+      @Override
+      public void onPlayerStateChangedCallBack(int i) {
+      nativePlayerEventListener(3, 2, i);
+      }
+      };
+
+      if(blooXRDeviceInfoCallback == null)
+      {
+      blooXRDeviceInfoCallback = new BlooXRDeviceInfoCallback();
+      }
+
+      if(deviceInfoManager == null)
+      {
+      //deviceInfoManager = new DeviceInfoManager();
+      deviceInfoManager = DeviceInfoManager.init(this, true, blooXRDeviceInfoCallback);
+      if(deviceInfoManager != null)
+      {
+      deviceInfoManager.addBxrPlayerEventListener(playerEventListenerLeft, 1);
+      deviceInfoManager.addBxrPlayerEventListener(playerEventListenerRight, 2);
+      deviceInfoManager.addBxrPlayerEventListener(playerEventListenerBoth, 3);
+      deviceInfoManager.initHaptic();
+      }
+      else
+      {
+      BlooXRPluginLogError("InitBlooXRPlugin: failed to init DeviceInfoManager.");
+      //return;
+      }
+      }
+
+      /*
+      if(blooXRWifiStatusCallBack == null)
+      {
+      blooXRWifiStatusCallBack = new BlooXRWifiStatusCallBack();
+      }
+
+      if(deviceWifiManager == null)
+      {
+      deviceWifiManager = DeviceWifiManager.init(this, true, blooXRWifiStatusCallBack);
+      if(deviceWifiManager == null)
+      {
+      BlooXRPluginLogError("InitBlooXRPlugin: failed to init deviceWifiManager.");
+      //return;
+      }
+      }
+
+      if(blooXRBTListener == null)
+      {
+      blooXRBTListener = new BlooXRBTListener();
+      }
+
+      if(deviceBluetoothManager == null)
+      {
+      // todo
+      deviceBluetoothManager = DeviceBluetoothManager.initFunc(this, true, blooXRBTListener);
+      if(deviceBluetoothManager == null)
+      {
+      BlooXRPluginLogError("InitBlooXRPlugin: failed to init deviceBluetoothManager.");
+      //return;
+      }
+      }
+      */
+
+      BlooXRPluginLogDebug("InitBlooXRPlugin finished.");
+      }
+
+      public void ReleaseBlooXRPlugin()
+      {
+      if(deviceInfoManager != null)
+      {
+      deviceInfoManager.removeBxrPlayerEventListener(1);
+      deviceInfoManager.removeBxrPlayerEventListener(2);
+      deviceInfoManager.removeBxrPlayerEventListener(3);
+      deviceInfoManager.releaseHaptic();
+      }
+      }
+
+      void setEyeProtection(boolean status)
+      {
+      if(deviceInfoManager != null)
+      {
+      deviceInfoManager.setEyeProtection(status);
+      }
+      }
+
+      boolean isEyeProtection()
+      {
+      if(deviceInfoManager != null)
+      {
+      return deviceInfoManager.isEyeProtection();
+      }
+      return false;
+      }
+
+      void setAdbState(boolean enable)
+      {
+      if(deviceInfoManager != null)
+      {
+      deviceInfoManager.setAdbState(enable);
+      }
+      }
+
+      boolean isAdbEnabled()
+      {
+      if(deviceInfoManager != null)
+      {
+      return deviceInfoManager.getAdbEnabled();
+      }
+      return false;
+      }
+
+      void setVolume(int volume)
+      {
+      if(deviceInfoManager != null)
+      {
+      deviceInfoManager.setVolume(volume);
+      }
+      }
+
+      int getVolume()
+      {
+      if(deviceInfoManager != null)
+      {
+      return deviceInfoManager.getVolume();
+      }
+      return 0;
+      }
+
+      int getMaxVolume()
+      {
+      if(deviceInfoManager != null)
+      {
+      return deviceInfoManager.getMaxVolume();
+      }
+      return 0;
+      }
+
+      int getPower()
+      {
+      if(deviceInfoManager != null)
+      {
+      return deviceInfoManager.getPower();
+      }
+      return 0;
+      }
+
+      boolean isCharging()
+      {
+      if(deviceInfoManager != null)
+      {
+      return deviceInfoManager.isCharging(this);
+      }
+      return false;
+      }
+
+      long getSystemTime()
+      {
+      if(deviceInfoManager != null)
+      {
+      return deviceInfoManager.getSystemTime();
+      }
+      return 0;
+      }
+
+      void setSystemTime(long time)
+      {
+      if(deviceInfoManager != null)
+      {
+      deviceInfoManager.setSystemTime(time);
+      }
+      }
+
+      /*
+      // ---- Wifi ----
+      
+      void connectWifi(String ssid, String password, int type)
+      {
+      if(deviceWifiManager != null)
+      {
+      deviceWifiManager.connectWifi(ssid, password, type);
+      }
+      }
+
+      void disConnectWifi(String ssid)
+      {
+      if(deviceWifiManager != null)
+      {
+      deviceWifiManager.disConnectWifi(ssid);
+      }
+      }
+
+      boolean isWifiOpen()
+      {
+      if(deviceWifiManager != null)
+      {
+      return deviceWifiManager.isWifiOpen();
+      }
+      return false;
+      }
+
+      // ---- Bluetooth ----
+
+      boolean isBluetoothOpen()
+      {
+      if(deviceBluetoothManager != null)
+      {
+      return deviceBluetoothManager.isBluetoothOpen();
+      }
+      return false;
+      }
+
+      String getBluetoothName()
+      {
+      if(deviceBluetoothManager != null)
+      {
+      return deviceBluetoothManager.getBluetoothName();
+      }
+      return "";
+      }
+
+      String getBluetoothAddress()
+      {
+      if(deviceBluetoothManager != null)
+      {
+      return deviceBluetoothManager.getBluetoothAddress();
+      }
+      return "";
+      }
+
+      */
+
+      void setDataSource(String he, int amplitude, int freq, int loopCount, int interval, int handShank)
+      {
+      if(deviceInfoManager != null)
+      {
+      deviceInfoManager.setDataSource(he, amplitude, freq, loopCount, interval, handShank);
+      }
+      }
+
+      void setCustomDataSource(int amplitude, int freq, int duration, int loopCount, int interval, int handShank)
+      {
+      if(deviceInfoManager != null)
+      {
+      deviceInfoManager.setCustomDataSource(amplitude, freq, duration, loopCount, interval, handShank);
+      }
+      }
+
+      void prepareHaptic(int handShank)
+      {
+      if(deviceInfoManager != null)
+      {
+      deviceInfoManager.prepareHaptic(handShank);
+      }
+      }
+
+      void startHaptic(int handShank)
+      {
+      if(deviceInfoManager != null)
+      {
+      deviceInfoManager.startHaptic(handShank);
+      }
+      }
+
+      void pauseHaptic(int handShank)
+      {
+      if(deviceInfoManager != null)
+      {
+      deviceInfoManager.pauseHaptic(handShank);
+      }
+      }
+
+      void stopHaptic(int handShank)
+      {
+      if(deviceInfoManager != null)
+      {
+      deviceInfoManager.stopHaptic(handShank);
+      }
+      }
+
+      void updateHaptic(int intensity, int freq, int interval, int handShank)
+      {
+      if(deviceInfoManager != null)
+      {
+      deviceInfoManager.updateHaptic(intensity, freq, interval, handShank);
+      }
+      }
+
+      void seekTo(int millSeconds, int handShank)
+      {
+      if(deviceInfoManager != null)
+      {
+      deviceInfoManager.seekTo(millSeconds, handShank);
+      }
+      }
+
+      boolean isPlaying(int handShank)
+      {
+      if(deviceInfoManager != null)
+      {
+      return deviceInfoManager.isPlaying(handShank);
+      }
+      return false;
+      }
+
+      int getDuration(int handShank)
+      {
+      if(deviceInfoManager != null)
+      {
+      return deviceInfoManager.getDuration(handShank);
+      }
+      return 0;
+      }
+
+      /*
+      void addBxrPlayerEventListener(OnBxrPlayerEventListener listener, int handShank)
+      {
+      if(deviceInfoManager != null)
+      {
+      deviceInfoManager.addBxrPlayerEventListener(listener, handShank);
+      }
+      }
+
+      void RemoveBxrPlayerEventListener(int handShank)
+      {
+      if(deviceInfoManager != null)
+      {
+      deviceInfoManager.RemoveBxrPlayerEventListener(handShank);
+      }
+      }
+      */
+
+      // ----- native callbacks -----
+      public native void nativeOnVolumeChange(int volume);
+      public native void nativeOnPowerFullChange(int level, boolean isCharging);
+      public native void nativeOnUsbConnectChange(boolean connect);
+      public native void nativeOnScreenLock(boolean isLock);
+      public native void nativeOnVolumeKeyDown(int status);
+      public native void nativeOnVolumeKeyUp(int status);
+      public native void nativeOnPowerKeyPressOneSecond();
+      public native void nativeOnFileInfoAvailable(String memoryInfo);
+      public native void nativePlayerEventListener(int handShank, int eventIndex, int value);
+
+    </insert>
+  </gameActivityClassAdditions>
+
+	<gameActivityOnCreateAdditions>
+    <insert>
+      InitBlooXRPlugin();
+    </insert>
+	</gameActivityOnCreateAdditions>
+
+	<gameActivityOnDestroyAdditions>
+    <insert>
+      ReleaseBlooXRPlugin();
+    </insert>
+  </gameActivityOnDestroyAdditions>
+
+	<!-- optional additions to GameActivity onStart in GameActivity.java
+	<gameActivityOnStartAdditions>
+	</gameActivityOnStartAdditions>
+	-->
+
+	<!-- optional additions to GameActivity onStop in GameActivity.java
+	<gameActivityOnStopAdditions>
+	</gameActivityOnStopAdditions>
+	-->
+
+	<!-- optional additions to GameActivity onPause in GameActivity.java
+	<gameActivityOnPauseAdditions>
+	</gameActivityOnPauseAdditions>
+	-->
+
+	<!-- optional additions to GameActivity onResume in GameActivity.java
+	<gameActivityOnResumeAdditions>
+	</gameActivityOnResumeAdditions>
+	-->
+
+	<!-- optional additions to GameActivity onActivityResult in GameActivity.java
+	<gameActivityOnActivityResultAdditions>
+	</gameActivityOnActivityResultAdditions>
+	-->
+
+	<!-- optional libraries to load in GameActivity.java before libUE4.so -->
+	<soLoadLibrary>
+		<loadLibrary name="openxr_loader" failmsg="openxr_loader library not loaded and may be required for Bloo OpenXR." />
+	</soLoadLibrary>
+</root>
