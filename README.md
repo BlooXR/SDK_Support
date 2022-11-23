@@ -12,7 +12,7 @@ BlooXR SDK基于OpenXR backend，当前为Beta版本，支持Unity项目开发�
 
 #### Unreal 4
 - Unreal: Unreal OpenXR app needs include the OpenXRLoader with Unreal OpenXR plugin, refer: https://docs.unrealengine.com/4.26/en-US/SharingAndReleasing/XRDevelopment/OpenXR/
-- Unreal引擎版本：427（推荐）
+- Unreal引擎版本：4.27, 4.26
 
 #### Android
 - 版本：Android 12
